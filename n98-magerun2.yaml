@@ -1,0 +1,6 @@
+autoloaders:
+  GetPageSpeed: %module%/src
+commands:  
+  customCommands:
+    - GetPageSpeed\VarnishTunedCommand
+

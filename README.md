@@ -1,5 +1,20 @@
 # n98-magerun2-modules
 
+This is a small (hopefully expanding in the future) collection of commands for `n98-magerun2`.
+
+## Installation
+
+### Quick install for CentOS 7
+
+This will install our RPM repository, `n98-magerun2` and the module:
+
+    yum install https://extras.getpagespeed.com/release-el7-latest.rpm
+    yum install n98-magerun2-module-getpagespeed
+
+### Other platforms
+
+Just place the files over to `/usr/local/share/n98-magerun2`.
+
 ## Commands available
 
 ### `n98-magerun2 varnish:tuned`

@@ -6,7 +6,7 @@ This is a small (hopefully expanding in the future) collection of commands for `
 
 ### Quick install for CentOS 7
 
-This will install our RPM repository, `n98-magerun2` and the module:
+This will install our [RPM repository](https://www.getpagespeed.com/redhat), `n98-magerun2` and the module:
 
     yum install https://extras.getpagespeed.com/release-el7-latest.rpm
     yum install n98-magerun2-module-getpagespeed
@@ -19,7 +19,7 @@ Just place the files over to `/usr/local/share/n98-magerun2`.
 
 ### `n98-magerun2 varnish:tuned`
 
-Gets tuned Varnish params. Example output:
+Gets tuned Varnish parameters specifc to *your* Magento 2 instance. It will find the category with largest number of products and provide Varnish parameters that will help you to avoid "Backend Fetch Failed" error as detailed in [documentation](https://devdocs.magento.com/guides/v2.2/config-guide/varnish/tshoot-varnish-503.html). Example output:
 
 ```
 Largest product category has this number of products: 1715

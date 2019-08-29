@@ -3,4 +3,5 @@ autoloaders:
 commands:  
   customCommands:
     - GetPageSpeed\VarnishTunedCommand
+    - GetPageSpeed\DevThemeActiveCommand
 

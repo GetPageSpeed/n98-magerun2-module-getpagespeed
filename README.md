@@ -2,19 +2,6 @@
 
 This is a small (hopefully expanding in the future) collection of commands for `n98-magerun2`.
 
-## Installation
-
-### Quick install for CentOS 7
-
-This will install our [RPM repository](https://www.getpagespeed.com/redhat), `n98-magerun2` and the module:
-
-    yum install https://extras.getpagespeed.com/release-el7-latest.rpm
-    yum install n98-magerun2-module-getpagespeed
-
-### Other platforms
-
-Just place the files over to `/usr/local/share/n98-magerun2`.
-
 ## Commands available
 
 ### `n98-magerun2 varnish:tuned`
@@ -29,3 +16,33 @@ Largest product category has this number of products: 1715
 | 36015             | 60591          | 93359             |
 +-------------------+----------------+-------------------+
 ```
+
+### `n98-magerun2 dev:theme:active`
+
+Allows to get list of used themes. Example output (suitable for deploy static command):
+
+    --theme Swissup/argento-pure2
+
+This is useful for scripts to facilitate faster builds.
+
+Many Magento 2 themes come bundled with many actual themes, and deploying static assets takes huge time.
+All because you unnecessarily minify a ton of CSS and Javascript files for themes which are not even in use!
+
+You can deploy just the used themes with:
+
+    bin/magento setup:static-content:deploy --theme Magento/backend $(n98-magerun2 dev:theme:active)
+
+## Installation
+
+### Quick install for CentOS 7
+
+This will install our [RPM repository](https://www.getpagespeed.com/redhat), `n98-magerun2` and the module:
+
+    yum install https://extras.getpagespeed.com/release-el7-latest.rpm
+    yum install n98-magerun2-module-getpagespeed
+
+### Other platforms
+
+Just place the files over to `/usr/local/share/n98-magerun2`.
+
+

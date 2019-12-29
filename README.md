@@ -2,6 +2,18 @@
 
 This is a small (hopefully expanding in the future) collection of commands for `n98-magerun2`.
 
+## Synopsys
+
+```bash
+sudo yum install https://extras.getpagespeed.com/release-el$(rpm -E %{rhel})-latest.rpm
+sudo yum install n98-magerun2-module-getpagespeed
+cd /path/to/magento2
+# Get tuned Varnish parameters specifc to your Magento 2 instance
+n98-magerun2 varnish:tuned 
+# Get active themes
+n98-magerun2 dev:theme:active
+```
+
 ## Commands available
 
 ### `n98-magerun2 varnish:tuned`
@@ -34,12 +46,12 @@ You can deploy just the used themes with:
 
 ## Installation
 
-### Quick install for CentOS 7
+### Quick install for CentOS 6+ (7, 8, ...)
 
 This will install our [RPM repository](https://www.getpagespeed.com/redhat), `n98-magerun2` and the module:
 
-    yum install https://extras.getpagespeed.com/release-el7-latest.rpm
-    yum install n98-magerun2-module-getpagespeed
+    sudo yum install https://extras.getpagespeed.com/release-el$(rpm -E %{rhel})-latest.rpm
+    sudo yum install n98-magerun2-module-getpagespeed
 
 ### Other platforms
 

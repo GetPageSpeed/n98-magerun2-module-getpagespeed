@@ -4,4 +4,5 @@ commands:
   customCommands:
     - GetPageSpeed\VarnishTunedCommand
     - GetPageSpeed\DevThemeActiveCommand
+    - GetPageSpeed\DeployLocaleActiveCommand
 

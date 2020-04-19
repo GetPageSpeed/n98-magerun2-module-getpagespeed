@@ -50,6 +50,7 @@ class DevThemeActiveCommand extends AbstractMagentoCommand
                 foreach ($res as $t) {
                     $out[] = '--theme ' . $t;
                 }
+                $out[] = '--theme Magento/backend'
                 $output->writeln(implode(' ', $out));
             }
 

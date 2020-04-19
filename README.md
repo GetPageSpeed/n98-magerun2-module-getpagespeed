@@ -5,7 +5,7 @@ This is a small (hopefully expanding in the future) collection of commands for `
 ## Synopsys
 
 ```bash
-sudo yum install https://extras.getpagespeed.com/release-el$(rpm -E %{rhel})-latest.rpm
+sudo yum install https://extras.getpagespeed.com/release-latest.rpm
 sudo yum install n98-magerun2-module-getpagespeed
 cd /path/to/magento2
 # Get tuned Varnish parameters specifc to your Magento 2 instance
@@ -18,7 +18,11 @@ n98-magerun2 dev:theme:active
 
 ### `n98-magerun2 varnish:tuned`
 
-Gets tuned Varnish parameters specifc to *your* Magento 2 instance. It will find the category with largest number of products and provide Varnish parameters that will help you to avoid "Backend Fetch Failed" error as detailed in [documentation](https://devdocs.magento.com/guides/v2.2/config-guide/varnish/tshoot-varnish-503.html). Example output:
+Gets tuned Varnish parameters specifc to *your* Magento 2 instance. It will find the category with 
+largest number of products and provide Varnish parameters that will help you to avoid 
+"Backend Fetch Failed" error as detailed in 
+[documentation](https://devdocs.magento.com/guides/v2.2/config-guide/varnish/tshoot-varnish-503.html). 
+Example output:
 
 ```
 Largest product category has this number of products: 1715
@@ -42,7 +46,32 @@ All because you unnecessarily minify a ton of CSS and Javascript files for theme
 
 You can deploy just the used themes with:
 
-    bin/magento setup:static-content:deploy --theme Magento/backend $(n98-magerun2 dev:theme:active)
+    bin/magento setup:static-content:deploy $(n98-magerun2 dev:theme:active)
+
+### `n98-magerun2 deploy:locale:active`
+
+Another way to speed up deployment of static files is by generating them only for actually used
+locales. I truly believe that Magento 2 is dumb as f* of not doing this by default.
+
+Only if you use `n98-magerun2 deploy:mode:set production` command, it is smart enough to generate
+statics only for used locales. But this command is dumb, because when you use it, you cannot parallelize
+deployment, and then again, you cannot deploy for only active themes, as above allows.
+
+So you can get list of actively used locales with `n98-magerun2 deploy:locale:active` and pass it
+over to deployment command:
+
+```bash
+n98-magerun2 deploy:locale:active
+#> en_US en_GB
+```
+
+Combining all the things together for a no-dumb and much quicker static deployment:
+
+```bash
+THEMES=$(n98-magerun2 dev:theme:active)
+LOCALES=$(n98-magerun2 deploy:locale:active)
+php ./bin/magento setup:static-content:deploy --jobs=$(nproc) ${THEMES} ${LOCALES}
+```
 
 ## Installation
 
@@ -50,7 +79,7 @@ You can deploy just the used themes with:
 
 This will install our [RPM repository](https://www.getpagespeed.com/redhat), `n98-magerun2` and the module:
 
-    sudo yum install https://extras.getpagespeed.com/release-el$(rpm -E %{rhel})-latest.rpm
+    sudo yum install https://extras.getpagespeed.com/release-latest.rpm
     sudo yum install n98-magerun2-module-getpagespeed
 
 ### Other platforms

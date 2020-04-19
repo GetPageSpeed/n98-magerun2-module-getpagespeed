@@ -14,7 +14,7 @@ class VarnishTunedCommand extends AbstractMagentoCommand
 
     const HTTP_RESP_HDR_LEN_DEF = 8192; // 8Kb is default, but check with some Varnish command what is default for your version (TODO)
     const HTTP_RESP_SIZE_DEF = 32768;  // 32Kb default
-    const WORKSPACE_BACKEND_DEF = 65536; // 64Kb defaul
+    const WORKSPACE_BACKEND_DEF = 65536; // 64Kb default
     const PRODUCT_TAG_AVG_LEN = 21; // https://devdocs.magento.com/guides/v2.0/config-guide/varnish/tshoot-varnish-503.html
 
     protected function configure()

@@ -5,4 +5,5 @@ commands:
     - GetPageSpeed\VarnishTunedCommand
     - GetPageSpeed\DevThemeActiveCommand
     - GetPageSpeed\DeployLocaleActiveCommand
+    - GetPageSpeed\DevModuleListCommand
 

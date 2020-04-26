@@ -9,8 +9,82 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use N98\Util\Console\Helper\Table\Renderer\RendererFactory;
 
+use Magento\User\Model\ResourceModel\User\Collection as UserCollection;
+use Magento\Framework\Validator\Locale;
+
 class DeployLocaleActiveCommand extends AbstractMagentoCommand
 {
+
+    /**
+     * @var UserCollection
+     */
+    private $userCollection;
+
+    /**
+     * @var \Magento\Store\Model\Config\StoreView
+     */
+    private $storeView;
+
+    /**
+     * @var Locale
+     */
+    private $locale;
+
+    /**
+     * @param UserCollection $userCollection
+     * @param \Magento\Store\Model\Config\StoreView $storeView
+     * @param Locale $locale
+     */
+    public function inject(
+        UserCollection $userCollection,
+        \Magento\Store\Model\Config\StoreView $storeView,
+        Locale $locale
+    ) {
+       	$this->userCollection = $userCollection;
+        $this->storeView = $storeView;
+        $this->locale = $locale;
+    }
+
+    /**
+     * Get admin user locales
+     *
+     * @return array
+     */
+    private function getAdminUserInterfaceLocales()
+    {
+        $locales = [];
+        foreach ($this->userCollection as $user) {
+            $locales[] = $user->getInterfaceLocale();
+        }
+	return $locales;
+    }
+
+    /**
+     * Get used store and admin user locales
+     *
+     * @return array
+     * @throws \InvalidArgumentException if unknown locale is provided by the store configuration
+     */
+    private function getUsedLocales()
+    {
+     	$usedLocales = array_merge(
+            $this->storeView->retrieveLocales(),
+            $this->getAdminUserInterfaceLocales()
+        );
+        return array_map(
+            function ($locale) {
+                if (!$this->locale->isValid($locale)) {
+                    throw new \InvalidArgumentException(
+                        $locale .
+                        ' argument has invalid value, run info:language:list for list of available locales'
+                    );
+                }
+                return $locale;
+            },
+            array_unique($usedLocales)
+        );
+    }
+
 
     protected function configure()
     {
@@ -36,27 +110,7 @@ class DeployLocaleActiveCommand extends AbstractMagentoCommand
         $this->detectMagento($output);
         if ($this->initMagento()) {
 
-
-            /** @var MagentoFrameworkAppObjectManager $objManager **/
-            $objManager = \Magento\Framework\App\ObjectManager::getInstance();
-
-            /** @var MagentoStoreModelStoreManagerInterface|MagentoStoreModelStoreManager $storeManager **/
-            $storeManager = $objManager->get('Magento\Store\Model\StoreManagerInterface');
-            $stores = $storeManager->getStores($withDefault = true);
-
-            //Get scope config
-            /** @var MagentoFrameworkAppConfigScopeConfigInterface|MagentoFrameworkAppConfig $scopeConfig **/
-            $scopeConfig = $objManager->get('Magento\Framework\App\Config\ScopeConfigInterface');
-
-            //new empty array to store locale codes
-            $localeForAllStores = [];
-
-            //To get list of locale for all stores;
-            foreach($stores as $store) {
-                $localeForAllStores[] = $scopeConfig->getValue('general/locale/code', 'store', $store->getStoreId());
-            }
-
-            $localeForAllStores = array_unique($localeForAllStores);
+            $localeForAllStores = $this->getUsedLocales();
 
             if (!$input->getOption('format')) {
                 $output->writeln(implode(' ', $localeForAllStores));

@@ -6,4 +6,4 @@ commands:
     - GetPageSpeed\DevThemeActiveCommand
     - GetPageSpeed\DeployLocaleActiveCommand
     - GetPageSpeed\DevModuleListCommand
-
+    - GetPageSpeed\DbMaintainSearchQuery

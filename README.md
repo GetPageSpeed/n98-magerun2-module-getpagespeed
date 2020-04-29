@@ -73,6 +73,16 @@ LOCALES=$(n98-magerun2 deploy:locale:active)
 php ./bin/magento setup:static-content:deploy --jobs=$(nproc) ${THEMES} ${LOCALES}
 ```
 
+### `n98-magerun2 db:maintain:search-query`
+
+This command trims entries for the `search_query` for queries which produce no results and were
+made more than a month ago. Helps to prevent too much unnecessary database bloating and thus
+improves performance. 
+
+There is no output on success. It is suitable to be set up into a `@monthly` cron, e.g.:
+
+    @monthly n98-magerun2 db:maintain:search-query --root-dir=/path/to/magento2  
+
 ## Installation
 
 ### Quick install for CentOS 6+ (7, 8, ...)

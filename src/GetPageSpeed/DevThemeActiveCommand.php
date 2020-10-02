@@ -41,7 +41,7 @@ class DevThemeActiveCommand extends AbstractMagentoCommand
  
             $themeTableName = $resource->getTableName('theme'); //gives table name with prefix
             $configTableName = $resource->getTableName('core_config_data');
-            $sql = sprintf('SELECT theme_path FROM `%s` LEFT JOIN `%s` ON `value` = `theme_id` WHERE `path`=\'design/theme/theme_id\'',
+            $sql = sprintf('SELECT DISTINCT theme_path FROM `%s` LEFT JOIN `%s` ON `value` = `theme_id` WHERE `path`=\'design/theme/theme_id\'',
                 $themeTableName, $configTableName); 
             $res = $connection->fetchCol($sql);
 

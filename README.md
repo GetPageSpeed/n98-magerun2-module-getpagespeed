@@ -9,9 +9,12 @@ The commands allow to speed up compilation and deployment of static assets, as w
 ```bash
 sudo yum -y install https://extras.getpagespeed.com/release-latest.rpm
 sudo yum -y install n98-magerun2-module-getpagespeed
+
 cd /path/to/magento2
+
 # Get tuned Varnish parameters specifc to your Magento 2 instance
 n98-magerun2 varnish:tuned 
+
 # Get active themes
 n98-magerun2 dev:theme:active
 ```
@@ -31,7 +34,7 @@ Varnish params: <b>-p http_resp_hdr_len=54684 -p http_resp_size=79260 -p workspa
 Largest product category has this number of products: <b>2604</b>
 </pre>
 
-Simply copy-paste suggested configuration bits to e.g. `/etc/varnish/varnish.params` or otherwise
+Simply copy-paste the suggested configuration bits to e.g. `/etc/varnish/varnish.params` or otherwise
 specify as startup parameters to Varnish.
 
 ### `n98-magerun2 dev:theme:active`
@@ -68,24 +71,6 @@ over to deployment command:
 <em>#></em> n98-magerun2 deploy:locale:active
 <em>#></em> <b>en_US en_GB</b>
 </pre>
-
-```console
-$ n98-magerun2 deploy:locale:active
-$ en_US en_GB
-```
-
-```shell-session
-$ n98-magerun2 deploy:locale:active
-$ en_US en_GB
-```
-
-```console
-#> echo 1
-~$ echo 1
-~# echo 1
-# echo 1
-```
-
 
 Combining all the things together for a no-dumb and much quicker static deployment:
 

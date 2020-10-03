@@ -79,6 +79,13 @@ $ n98-magerun2 deploy:locale:active
 $ en_US en_GB
 ```
 
+```console
+#> echo 1
+~$ echo 1
+~# echo 1
+# echo 1
+```
+
 
 Combining all the things together for a no-dumb and much quicker static deployment:
 

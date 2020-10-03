@@ -1,12 +1,14 @@
 # n98-magerun2-modules
 
-This is a small (hopefully expanding in the future) collection of commands for `n98-magerun2`.
+This is our collection of commands for `n98-magerun2`.
+The commands allow to speed up compilation and deployment of static assets, as well
+ as few other helper commands for Magento 2.
 
 ## Synopsys
 
 ```bash
-sudo yum install https://extras.getpagespeed.com/release-latest.rpm
-sudo yum install n98-magerun2-module-getpagespeed
+sudo yum -y install https://extras.getpagespeed.com/release-latest.rpm
+sudo yum -y install n98-magerun2-module-getpagespeed
 cd /path/to/magento2
 # Get tuned Varnish parameters specifc to your Magento 2 instance
 n98-magerun2 varnish:tuned 
@@ -24,14 +26,13 @@ largest number of products and provide Varnish parameters that will help you to 
 [documentation](https://devdocs.magento.com/guides/v2.2/config-guide/varnish/tshoot-varnish-503.html). 
 Example output:
 
-```
-Largest product category has this number of products: 1715
-+-------------------+----------------+-------------------+
-| http_resp_hdr_len | http_resp_size | workspace_backend |
-+-------------------+----------------+-------------------+
-| 36015             | 60591          | 93359             |
-+-------------------+----------------+-------------------+
-```
+<pre>
+Varnish params: <b>-p http_resp_hdr_len=54684 -p http_resp_size=79260 -p workspace_backend=112028</b>
+Largest product category has this number of products: <b>2604</b>
+</pre>
+
+Simply copy-paste suggested configuration bits to e.g. `/etc/varnish/varnish.params` or otherwise
+specify as startup parameters to Varnish.
 
 ### `n98-magerun2 dev:theme:active`
 
@@ -47,6 +48,9 @@ All because you unnecessarily minify a ton of CSS and Javascript files for theme
 You can deploy just the used themes with:
 
     bin/magento setup:static-content:deploy $(n98-magerun2 dev:theme:active)
+    
+This is used in our zero-downtime deployment program, 
+[`clearmage2`](https://www.getpagespeed.com/clearmage2).
 
 ### `n98-magerun2 deploy:locale:active`
 
@@ -60,10 +64,11 @@ deployment, and then again, you cannot deploy for only active themes, as above a
 So you can get list of actively used locales with `n98-magerun2 deploy:locale:active` and pass it
 over to deployment command:
 
-```bash
-n98-magerun2 deploy:locale:active
-#> en_US en_GB
-```
+<pre>
+<em>#></em> n98-magerun2 deploy:locale:active
+<em>#></em> <b>en_US en_GB</b>
+</pre>
+
 
 Combining all the things together for a no-dumb and much quicker static deployment:
 
@@ -72,6 +77,9 @@ THEMES=$(n98-magerun2 dev:theme:active)
 LOCALES=$(n98-magerun2 deploy:locale:active)
 php ./bin/magento setup:static-content:deploy --jobs=$(nproc) ${THEMES} ${LOCALES}
 ```
+
+This is also used in our zero-downtime deployment program, 
+[`clearmage2`](https://www.getpagespeed.com/clearmage2).
 
 ### `n98-magerun2 db:maintain:search-query`
 

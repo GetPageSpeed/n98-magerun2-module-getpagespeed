@@ -69,6 +69,16 @@ over to deployment command:
 <em>#></em> <b>en_US en_GB</b>
 </pre>
 
+```console
+$ n98-magerun2 deploy:locale:active
+$ en_US en_GB
+```
+
+```shell-session
+$ n98-magerun2 deploy:locale:active
+$ en_US en_GB
+```
+
 
 Combining all the things together for a no-dumb and much quicker static deployment:
 

@@ -59,18 +59,24 @@ class VarnishTunedCommand extends AbstractMagentoCommand
             $tunedConfig = compact('http_resp_hdr_len', 'http_resp_size', 'workspace_backend');
 
             if (!$input->getOption('format')) {
-                $output->writeln('<info>Largest product category has this number of products: <comment>' . $largestCategoryProductCount . '</comment></info>');
-            }
-
-            if ($input->getOption('format') !== 'json') {
+                $output->writeln(
+                    sprintf(
+                        '<info>Varnish params: <comment>-p http_resp_hdr_len=%d -p http_resp_size=%d -p workspace_backend=%d</comment></info>',
+                        $http_resp_hdr_len, $http_resp_size, $workspace_backend
+                    )
+                );
+                $output->writeln(
+                    '<info>Largest product category has this number of products: <comment>' . $largestCategoryProductCount . '</comment></info>'
+                );
+            } elseif ($input->getOption('format') == 'json') {
+                $output->writeln(
+                    json_encode($tunedConfig, JSON_PRETTY_PRINT)
+                );
+            } else {
                 $table = array($tunedConfig);
                 $this->getHelper('table')
                     ->setHeaders(array_keys($tunedConfig))
                     ->renderByFormat($output, $table, $input->getOption('format'));
-            } else {
-                $output->writeln(
-                    json_encode($tunedConfig, JSON_PRETTY_PRINT)
-                );
             }
         }
     }

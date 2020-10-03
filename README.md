@@ -82,6 +82,10 @@ improves performance.
 There is no output on success. It is suitable to be set up into a `@monthly` cron, e.g.:
 
     @monthly n98-magerun2 db:maintain:search-query --root-dir=/path/to/magento2  
+    
+### TODO
+
+Extra switch for trimming based on popularity, e.g. remove all with popularity < 25    
 
 ## Installation
 

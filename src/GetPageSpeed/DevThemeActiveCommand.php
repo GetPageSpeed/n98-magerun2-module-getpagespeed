@@ -5,6 +5,7 @@ namespace GetPageSpeed;
 use N98\Magento\Command\AbstractMagentoCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 
 use Symfony\Component\Console\Input\InputOption;
 use N98\Util\Console\Helper\Table\Renderer\RendererFactory;
@@ -59,6 +60,9 @@ class DevThemeActiveCommand extends AbstractMagentoCommand
                     json_encode($res, JSON_PRETTY_PRINT)
                 );
             }
+            return Command::SUCCESS;
+        } else {
+            return Command::FAILURE;
         }
     }
 }

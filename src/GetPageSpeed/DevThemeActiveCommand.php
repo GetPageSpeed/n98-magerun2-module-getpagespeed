@@ -45,6 +45,10 @@ class DevThemeActiveCommand extends AbstractMagentoCommand
             $sql = sprintf('SELECT DISTINCT theme_path FROM `%s` LEFT JOIN `%s` ON `value` = `theme_id` WHERE `path`=\'design/theme/theme_id\'',
                 $themeTableName, $configTableName); 
             $res = $connection->fetchCol($sql);
+            
+            if (!count($res)) {
+                $res[] = 'Magento/luma';
+            }            
 
             if (!$input->getOption('format')) {
                 $out = array();

@@ -1,4 +1,4 @@
-# n98-magerun2-modules
+# `n98-magerun2-modules`
 
 This is our collection of commands for `n98-magerun2`.
 The commands allow to speed up compilation and deployment of static assets, as well

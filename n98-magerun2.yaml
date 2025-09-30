@@ -7,3 +7,4 @@ commands:
     - GetPageSpeed\DeployLocaleActiveCommand
     - GetPageSpeed\DevModuleListCommand
     - GetPageSpeed\DbMaintainSearchQuery
+    - GetPageSpeed\MapsGenerateCommand
